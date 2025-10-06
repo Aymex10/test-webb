@@ -154,62 +154,66 @@
       window.scrollTo({top:0,behavior:'smooth'});
     });
 </script> 
-    // ----- GALLERY SETUP -----
-    // 1) Enkel variant: lista filnamn här (filer ska finnas i repo:/images/)
-    const imageFiles = [
-      "bild1.jpg",
-      "bild2.jpg",
-      "bild3.jpg",
-      "bild4.jpg"
+   <!-- Längst ner i din index.html -->
+<script>
+  // ----- GALLERY SETUP -----
+  // 1) Enkel variant: lista filnamn här (filer ska finnas i repo:/images/)
+  const imageFiles = [
+    "bild1.jpg",
+    "bild2.jpg",
+    "bild3.jpg",
+    "bild4.jpg"
   ];
-   
-    const galleryGrid = document.getElementById('galleryGrid');
-    const imagesPathPrefix = "images/"; // mappen där du lägger upp bilderna i ditt repo
 
-    function buildGallery(){
-      galleryGrid.innerHTML = "";
-      imageFiles.forEach(fn => {
-        const img = document.createElement('img');
-        img.className = "thumb";
-        img.src = imagesPathPrefix + fn;
-        img.alt = fn;
-        img.onerror = () => {
-          // Om fil saknas: visa enkel fallback
-          img.style.background = "#ddd";
-          img.style.objectFit = "contain";
-          img.alt = "Saknas: " + fn;
-        };
-        img.addEventListener('click', () => openLightbox(img.src, img.alt));
-        galleryGrid.appendChild(img);
-      });
-    }
-    buildGallery();
+  const galleryGrid = document.getElementById('galleryGrid');
+  const imagesPathPrefix = "images/"; // mappen där du lägger upp bilderna i ditt repo
 
-    // ----- LIGHTBOX -----
-    const lb = document.getElementById('lightbox');
-    const lbImg = document.getElementById('lightboxImg');
-    const closeLB = document.getElementById('closeLB');
+  function buildGallery() {
+    galleryGrid.innerHTML = "";
+    imageFiles.forEach(fn => {
+      const img = document.createElement('img');
+      img.className = "thumb";
+      img.src = imagesPathPrefix + fn;
+      img.alt = fn;
+      img.onerror = () => {
+        // Om fil saknas: visa enkel fallback
+        img.style.background = "#ddd";
+        img.style.objectFit = "contain";
+        img.alt = "Saknas: " + fn;
+      };
+      img.addEventListener('click', () => openLightbox(img.src, img.alt));
+      galleryGrid.appendChild(img);
+    });
+  }
+  buildGallery();
 
-    function openLightbox(src, alt){
-      lbImg.src = src;
-      lbImg.alt = alt || "Bild";
-      lb.classList.add('show');
-      lb.setAttribute('aria-hidden','false');
-    }
-    function closeLightbox(){
-      lb.classList.remove('show');
-      lb.setAttribute('aria-hidden','true');
-      lbImg.src = "";
-    }
-    closeLB.addEventListener('click', closeLightbox);
-    lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
-    document.addEventListener('keydown', (e) => { if (e.key === "Escape") closeLightbox(); });
+  // ----- LIGHTBOX -----
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightboxImg');
+  const closeLB = document.getElementById('closeLB');
 
-    // ----- Footer årtal -----
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  function openLightbox(src, alt) {
+    lbImg.src = src;
+    lbImg.alt = alt || "Bild";
+    lb.classList.add('show');
+    lb.setAttribute('aria-hidden', 'false');
+  }
+  function closeLightbox() {
+    lb.classList.remove('show');
+    lb.setAttribute('aria-hidden', 'true');
+    lbImg.src = "";
+  }
+  closeLB.addEventListener('click', closeLightbox);
+  lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
+  document.addEventListener('keydown', (e) => { if (e.key === "Escape") closeLightbox(); });
+
+  // ----- Footer årtal -----
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
+
+
 
 
 
