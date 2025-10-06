@@ -1,38 +1,209 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Min testwebbplats</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Min testhemsida</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 50px;
-      background-color: #f4f4f9;
+    :root{
+      --accent: #2563eb;
+      --bg: #f7f8fb;
+      --card: #ffffff;
+      --muted: #666;
     }
-    h1 {
-      color: #333;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background:var(--bg);
+      color:#111;
+      line-height:1.4;
     }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 8px;
-      border: none;
-      background-color: #007bff;
-      color: white;
+
+    /* Header / nav */
+    header{
+      background:white;
+      box-shadow:0 2px 6px rgba(16,24,40,0.06);
+      position:sticky;
+      top:0;
+      z-index:10;
     }
-    button:hover {
-      background-color: #0056b3;
+    .container{max-width:1000px;margin:0 auto;padding:16px;}
+    nav{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+    .brand{font-weight:700;color:var(--accent);font-size:1.1rem}
+    .menu{display:flex;gap:12px}
+    .menu button{
+      background:none;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600;
+    }
+    .menu button.active{background:linear-gradient(90deg, rgba(37,99,235,0.12), rgba(37,99,235,0.06));color:var(--accent)}
+
+    /* Hero */
+    .hero{
+      padding:36px 16px;
+      text-align:center;
+    }
+    .hero h1{margin:0 0 8px;font-size:2rem}
+    .hero p{margin:0;color:var(--muted)}
+
+    /* Sections */
+    section{max-width:1000px;margin:20px auto;padding:16px}
+    .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(16,24,40,0.04)}
+
+    /* Gallery */
+    .gallery-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+      gap:12px;margin-top:12px;
+    }
+    .thumb{
+      display:block;overflow:hidden;border-radius:10px;background:#eee;cursor:pointer;
+      height:120px;object-fit:cover;width:100%;
+    }
+
+    /* Lightbox */
+    .lightbox{
+      position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;
+      padding:20px;z-index:40;visibility:hidden;opacity:0;transition:opacity .18s;
+    }
+    .lightbox.show{visibility:visible;opacity:1}
+    .lightbox img{max-width:90%;max-height:85%;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,0.5)}
+    .lightbox .close{
+      position:absolute;top:18px;right:20px;background:transparent;border:none;color:white;font-size:24px;cursor:pointer;
+    }
+
+    /* Footer */
+    footer{padding:24px;text-align:center;color:var(--muted);font-size:0.9rem}
+    @media (max-width:600px){
+      .hero h1{font-size:1.5rem}
     }
   </style>
 </head>
 <body>
-  <h1>Hej världen! 👋</h1>
-  <p>Detta är min första webbsida och jag älskar verkligen Jasmin.</p>
-  <p>Jag gör detta för henne! Ayman + Jasmin = kärlek hehe.</p>
-  <button onclick="alert('Du klickade på knappen!')">Klicka mig!</button>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="brand">Min Hemsida</div>
+        <div class="menu" id="menu">
+          <button data-target="home" class="active">Hem</button>
+          <button data-target="gallery">Galleri</button>
+          <button data-target="about">Om</button>
+          <button data-target="contact">Kontakt</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="card">
+      <div class="hero">
+        <h1>Välkommen!</h1>
+        <p>Detta är en testhemsida som visar hur du kan ha en meny och ett bildgalleri på GitHub Pages.</p>
+      </div>
+    </section>
+
+    <section id="gallery" class="card" style="display:none">
+      <h2>Galleri</h2>
+      <p style="color:var(--muted)">Klicka på en bild för att se den större.</p>
+
+      <!-- Här kan du antingen lägga in <img> taggar direkt -->
+      <div class="gallery-grid" id="galleryGrid">
+        <!-- Exempel: -->
+        <!-- <img class="thumb" src="images/bild1.jpg" alt="Bild 1"> -->
+        <!-- <img class="thumb" src="images/bild2.jpg" alt="Bild 2"> -->
+      </div>
+
+      <p style="margin-top:12px;color:var(--muted)">Tips: Ladda upp bilder i mappen <code>/images/</code> i ditt repo och ange filnamn i JavaScriptens lista nedan (eller lägg in <code>&lt;img&gt;</code>-taggar direkt).</p>
+    </section>
+
+    <section id="about" class="card" style="display:none">
+      <h2>Om</h2>
+      <p>Det här är ett exempel på en enkel, responsiv single-page-app utan byggverktyg. Perfekt för GitHub Pages.</p>
+    </section>
+
+    <section id="contact" class="card" style="display:none">
+      <h2>Kontakt</h2>
+      <p>Du kan lägga kontaktinfo här.</p>
+    </section>
+  </main>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="close" id="closeLB" title="Stäng">✕</button>
+    <img id="lightboxImg" src="" alt="Stor bild">
+  </div>
+
+  <footer>
+    &copy; <span id="year"></span> Min Hemsida — Gjord för att testas på GitHub Pages
+  </footer>
+
+  <script>
+    // ----- NAVIGATION -----
+    const menu = document.getElementById('menu');
+    const sections = document.querySelectorAll('main section');
+    menu.addEventListener('click', (e) => {
+      if (!e.target.dataset.target) return;
+      const target = e.target.dataset.target;
+      // toggle active class
+      menu.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+      e.target.classList.add('active');
+      // show/hide sections
+      sections.forEach(s => s.id === target ? s.style.display = '' : s.style.display = 'none');
+      // scroll to top for better UX
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+
+    // ----- GALLERY SETUP -----
+    // 1) Enkel variant: lista filnamn här (filer ska finnas i repo:/images/)
+    const imageFiles = [
+      "bild1.jpg",
+      "bild2.jpg",
+      "bild3.jpg"
+    ];
+    // 2) Om du hellre vill lägga in <img> manuellt i HTML, hoppa över JavaScript-listan ovan.
+
+    const galleryGrid = document.getElementById('galleryGrid');
+    const imagesPathPrefix = "images/"; // mappen där du lägger upp bilderna i ditt repo
+
+    function buildGallery(){
+      galleryGrid.innerHTML = "";
+      imageFiles.forEach(fn => {
+        const img = document.createElement('img');
+        img.className = "thumb";
+        img.src = imagesPathPrefix + fn;
+        img.alt = fn;
+        img.onerror = () => {
+          // Om fil saknas: visa enkel fallback
+          img.style.background = "#ddd";
+          img.style.objectFit = "contain";
+          img.alt = "Saknas: " + fn;
+        };
+        img.addEventListener('click', () => openLightbox(img.src, img.alt));
+        galleryGrid.appendChild(img);
+      });
+    }
+    buildGallery();
+
+    // ----- LIGHTBOX -----
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightboxImg');
+    const closeLB = document.getElementById('closeLB');
+
+    function openLightbox(src, alt){
+      lbImg.src = src;
+      lbImg.alt = alt || "Bild";
+      lb.classList.add('show');
+      lb.setAttribute('aria-hidden','false');
+    }
+    function closeLightbox(){
+      lb.classList.remove('show');
+      lb.setAttribute('aria-hidden','true');
+      lbImg.src = "";
+    }
+    closeLB.addEventListener('click', closeLightbox);
+    lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
+    document.addEventListener('keydown', (e) => { if (e.key === "Escape") closeLightbox(); });
+
+    // ----- Footer årtal -----
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
-
