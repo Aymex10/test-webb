@@ -98,34 +98,26 @@
       <div class="hero">
         <h1>Välkommen azizam!</h1>
         <p>Detta är en hemsida dedikerad till den andra delen av mitt hjärta.</p>
-        
-            <img src="images/startbild.jpg" alt="Startbild" style="max-width:80%;border-radius:12px;margin-top:20px;">
+        <img src="images/startbild.jpg" alt="Startbild" style="max-width:80%;border-radius:12px;margin-top:20px;">
       </div>
     </section>
 
     <section id="gallery" class="card" style="display:none">
       <h2>Galleri</h2>
       <p style="color:var(--muted)">Klicka på en bild för att se den större.</p>
-
-      <!-- Här kan du antingen lägga in <img> taggar direkt -->
-      <div class="gallery-grid" id="galleryGrid">
-        <!-- Exempel: -->
-        <!-- <img class="thumb" src="images/bild1.jpg" alt="Bild 1"> -->
-        <!-- <img class="thumb" src="images/bild2.jpg" alt="Bild 2"> -->
-      </div>
-
+      <div class="gallery-grid" id="galleryGrid"></div>
       <p style="margin-top:12px;color:var(--muted)">Ana o albi.</p>
     </section>
 
     <section id="about" class="card" style="display:none">
       <h2>Om</h2>
-      <p>Detta är ett exempel på att man alltid kan lyckas om man vill. Allt det handlar om är ens egna mindset och hur mycket man är villig att kämpa och lära sig nytt. Hoppas att det kan inspirera er./ A N</p>
+      <p>Detta är ett exempel på att man alltid kan lyckas om man vill. Allt det handlar om är ens egna mindset och hur mycket man är villig att kämpa och lära sig nytt. Hoppas att det kan inspirera er. /A N</p>
     </section>
 
     <section id="contact" class="card" style="display:none">
       <h2>Kontakt</h2>
       <p>VD/CEO - Jasmin Hendioni 070-473 89 11.</p>
-      <p>Assistant CEO Ayman Najjar 073-700 60 87.</p>
+      <p>Assistant - CEO Ayman Najjar 073-700 60 87.</p>
     </section>
   </main>
 
@@ -138,85 +130,68 @@
     &copy; <span id="year"></span> The Ayman & Jaz Gallery
   </footer>
 
+  <!-- ✅ ALL JAVASCRIPT SKA LIGGA HÄR NEDAN -->
+  <script>
     // ----- NAVIGATION -----
     const menu = document.getElementById('menu');
     const sections = document.querySelectorAll('main section');
+
     menu.addEventListener('click', (e) => {
       if (!e.target.dataset.target) return;
       const target = e.target.dataset.target;
-      // toggle active class
-      menu.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+      menu.querySelectorAll('button').forEach(b => b.classList.remove('active'));
       e.target.classList.add('active');
-      // show/hide sections
       sections.forEach(s => s.id === target ? s.style.display = '' : s.style.display = 'none');
-      // scroll to top for better UX
-      window.scrollTo({top:0,behavior:'smooth'});
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-  
-  // ----- GALLERY SETUP -----
-  // 1) Enkel variant: lista filnamn här (filer ska finnas i repo:/images/)
-  const imageFiles = [
-    "bild1.jpg",
-    "bild2.jpg",
-    "bild3.jpg",
-    "bild4.jpg"
-  ];
 
-  const galleryGrid = document.getElementById('galleryGrid');
-  const imagesPathPrefix = "images/"; // mappen där du lägger upp bilderna i ditt repo
+    // ----- GALLERY SETUP -----
+    const imageFiles = ["bild1.jpg", "bild2.jpg", "bild3.jpg", "bild4.jpg"];
+    const galleryGrid = document.getElementById('galleryGrid');
+    const imagesPathPrefix = "images/";
 
-  function buildGallery() {
-    galleryGrid.innerHTML = "";
-    imageFiles.forEach(fn => {
-      const img = document.createElement('img');
-      img.className = "thumb";
-      img.src = imagesPathPrefix + fn;
-      img.alt = fn;
-      img.onerror = () => {
-        // Om fil saknas: visa enkel fallback
-        img.style.background = "#ddd";
-        img.style.objectFit = "contain";
-        img.alt = "Saknas: " + fn;
-      };
-      img.addEventListener('click', () => openLightbox(img.src, img.alt));
-      galleryGrid.appendChild(img);
-    });
-  }
-  buildGallery();
+    function buildGallery() {
+      galleryGrid.innerHTML = "";
+      imageFiles.forEach(fn => {
+        const img = document.createElement('img');
+        img.className = "thumb";
+        img.src = imagesPathPrefix + fn;
+        img.alt = fn;
+        img.onerror = () => {
+          img.style.background = "#ddd";
+          img.style.objectFit = "contain";
+          img.alt = "Saknas: " + fn;
+        };
+        img.addEventListener('click', () => openLightbox(img.src, img.alt));
+        galleryGrid.appendChild(img);
+      });
+    }
+    buildGallery();
 
-  // ----- LIGHTBOX -----
-  const lb = document.getElementById('lightbox');
-  const lbImg = document.getElementById('lightboxImg');
-  const closeLB = document.getElementById('closeLB');
+    // ----- LIGHTBOX -----
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightboxImg');
+    const closeLB = document.getElementById('closeLB');
 
-  function openLightbox(src, alt) {
-    lbImg.src = src;
-    lbImg.alt = alt || "Bild";
-    lb.classList.add('show');
-    lb.setAttribute('aria-hidden', 'false');
-  }
-  function closeLightbox() {
-    lb.classList.remove('show');
-    lb.setAttribute('aria-hidden', 'true');
-    lbImg.src = "";
-  }
-  closeLB.addEventListener('click', closeLightbox);
-  lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
-  document.addEventListener('keydown', (e) => { if (e.key === "Escape") closeLightbox(); });
+    function openLightbox(src, alt) {
+      lbImg.src = src;
+      lbImg.alt = alt || "Bild";
+      lb.classList.add('show');
+      lb.setAttribute('aria-hidden', 'false');
+    }
 
-  // ----- Footer årtal -----
-  document.getElementById('year').textContent = new Date().getFullYear();
-</script>
+    function closeLightbox() {
+      lb.classList.remove('show');
+      lb.setAttribute('aria-hidden', 'true');
+      lbImg.src = "";
+    }
+
+    closeLB.addEventListener('click', closeLightbox);
+    lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
+    document.addEventListener('keydown', (e) => { if (e.key === "Escape") closeLightbox(); });
+
+    // ----- FOOTER YEAR -----
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
